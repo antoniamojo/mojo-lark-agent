@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "defaultMode": "{{PERMISSION_MODE}}",
+    "additionalDirectories": ["{{WORKSPACE_DIR}}"],
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "WebSearch",
+      "WebFetch",
+      "ListAgents",
+      "Write(/{{AGENT_DIR}}/groups/**)",
+      "Edit(/{{AGENT_DIR}}/groups/**)",
+      "Bash(printenv CC_SESSION_KEY)"
+    ],
+    "deny": [
+      "Read(~/.config/**)",
+      "Read(~/.ssh/**)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "mcp__lark__im_v1_message_create",
+      "mcp__lark__im_v1_chat_create",
+      "mcp__lark__drive_v1_permissionMember_create",
+      "Bash(git push:*)",
+      "Bash(*deploy*)"
+    ]
+  }
+}

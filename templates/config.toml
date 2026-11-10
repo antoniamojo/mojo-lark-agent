@@ -1,0 +1,52 @@
+# cc-connect config for a Lark bot agent. Rendered by scripts/install.sh.
+# Secrets come from env via ${...} (see scripts/run.sh); never put them here.
+# Reference: https://github.com/chenhg5/cc-connect (config.example.toml, docs/feishu.md)
+
+language = "{{LANGUAGE}}"
+data_dir = "{{DATA_DIR}}"
+
+[log]
+level = "info"
+
+# Chat shows only the final answer: no thinking, tool calls or footer.
+[display]
+mode = "quiet"
+thinking_messages = false
+tool_messages = false
+reply_footer = false
+show_context_indicator = false
+hide_agent_footer = true
+
+[[projects]]
+name = "{{AGENT_SLUG}}"
+admin_from = ""                 # nobody may run /shell, /dir, /restart … from chat
+reply_footer = false
+show_context_indicator = false
+show_workdir_indicator = false
+
+[projects.agent]
+type = "claudecode"
+
+[projects.agent.options]
+# Claude Code runs in the agent folder so its .claude/settings.json and CLAUDE.md apply.
+work_dir = "{{AGENT_DIR}}"
+# "default" asks for approval in chat (cards); "bypassPermissions" runs tools without asking.
+# Deny rules in .claude/settings.json apply in both.
+mode = "{{PERMISSION_MODE}}"
+model = "{{MODEL}}"
+reasoning_effort = "{{EFFORT}}"
+
+[[projects.platforms]]
+type = "{{PLATFORM}}"           # "lark" (larksuite.com) or "feishu" (feishu.cn)
+
+[projects.platforms.options]
+app_id = "${AGENT_APP_ID}"
+app_secret = "${AGENT_APP_SECRET}"
+domain = "{{LARK_DOMAIN}}"
+enable_feishu_card = true
+allow_from = "${AGENT_ALLOW_FROM}"   # comma-separated open_ids; everyone else and all bots are ignored
+group_reply_all = false              # groups: reply only when @mentioned
+share_session_in_channel = false     # each person has their own session per group
+progress_style = "compact"
+reaction_emoji = "OnIt"
+done_emoji = "none"
